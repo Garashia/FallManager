@@ -7,6 +7,7 @@ public class FallManager : MonoBehaviour
     GameObject playerObj;
     Rigidbody2D fallRigid;
     [SerializeField]
+    [Range(0, 1)]
     private float fallObjectSize = 0.0f;
     bool onFloorCollider = false;
     float fallObjectY = 0.0f;
