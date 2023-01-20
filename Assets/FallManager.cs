@@ -9,6 +9,10 @@ public class FallManager : MonoBehaviour
     [SerializeField]
     [Range(0, 1)]
     private float fallObjectSize = 0.0f;
+    [SerializeField]
+    private bool upFlag = true;
+    [SerializeField]
+    private bool downFlag = true;
     bool onFloorCollider = false;
     float fallObjectY = 0.0f;
     bool fallFlag = true;
@@ -16,9 +20,9 @@ public class FallManager : MonoBehaviour
     private void Start()
     {
         objSize = gameObject.GetComponent<SpriteRenderer>().bounds.size;
-        // ‚‚³
+        // ï¿½ï¿½ï¿½ï¿½
 
-        // ƒvƒŒƒCƒ„[ƒ^ƒO‚ğ‚Â‚¯‚Ä
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½^ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
         playerObj = GameObject.FindWithTag("Player");
         fallRigid = gameObject.GetComponent<Rigidbody2D>();
         fallObjectY = gameObject.transform.position.y;
@@ -45,6 +49,16 @@ public class FallManager : MonoBehaviour
             StartCoroutine(MoveDown());
         }
 
+    }
+
+    public void MoveFall()
+    {
+
+    }
+
+    public bool GetFallFlag()
+    {
+        return true;
     }
     private IEnumerator MoveDown()
     {
