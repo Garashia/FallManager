@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class FallManager : MonoBehaviour
 {
-    GameObject playerObj;
-    Rigidbody2D fallRigid;
+    GameObject playerObj;                   // プレイヤーオブジェクト
+    Rigidbody2D fallRigid;                  // オブジェクトのリジッド
     [SerializeField]
     [Range(0, 1)]
-    private float fallScopeSize = 0.0f;
+    private float fallScopeSize = 0.0f;     // オブジェクトの落下判定を広げてくれる
+
     [SerializeField]
-    private bool IsUp = true;
+    private bool IsUp = true;               // 上がるかをInspectorで設定
+
     [SerializeField]
-    private bool IsDown = true;
-    bool onFloorCollider = false;
-    float fallObjectY = 0.0f;
-    bool fallFlag = true;
-    bool IsFallFlag = false;
-    Vector2 objSize;
+    private bool IsDown = true;             // 落ちるかをInspectorで設定
+
+    private bool onFloorCollider = false;   // 上がり判定
+    private float fallObjectY = 0.0f;       // 上がる上限
+    private bool fallFlag = true;           // 落ちるべきかどうかを確認
+    private bool IsFallFlag = false;        
+
+    private Vector2 objSize; // オブジェクトのサイズ
+
     private WaitForSeconds cachedWait0;
     private WaitForSeconds cachedWait1;
     private WaitForSeconds cachedWait2;
@@ -57,6 +62,7 @@ public class FallManager : MonoBehaviour
 
     }
 
+    // 別のスクリプト上でも呼べる
     public void MoveFall()
     {
         if(fallFlag)
@@ -67,11 +73,13 @@ public class FallManager : MonoBehaviour
         }
     }
 
+    // 落下中のみtrue、攻撃判定などを付けたいとき用
     public bool GetFallFlag()
     {
         return IsFallFlag;
     }
 
+    // 非同期処理、たまにWaitForSecondsが働いてない時があるので注意
     private IEnumerator MoveDown()
     {
         //var cachedWait0 = new WaitForSeconds(0.9f);
@@ -93,6 +101,7 @@ public class FallManager : MonoBehaviour
         onFloorCollider = false;
     }
 
+    // 床に"Floor"タグを付けた場合は、関数内のコメント解除するのが好ましい
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //if (collision.gameObject.CompareTag("Floor"))
