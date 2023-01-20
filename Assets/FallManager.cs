@@ -70,7 +70,7 @@ public class FallManager : MonoBehaviour
         float speed = 0.001f;
         while (gameObject.transform.position.y < fallObjectY/* - nowFallPos; i += 0.01f*/)
         {
-            gameObject.transform.position += new Vector3(0.0f, speed, 0.0f);
+            fallRigid.transform.position += new Vector3(0.0f, speed, 0.0f);
             yield return new WaitForSeconds(0.3f);
             speed += 0.001f;
         }
