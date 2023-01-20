@@ -24,7 +24,7 @@ public class FallManager : MonoBehaviour
         // プレイヤータグ
         playerObj = GameObject.FindWithTag("Player");
         fallRigid = gameObject.GetComponent<Rigidbody2D>();
-        fallObjectY = gameObject.transform.position.y;
+        fallObjectY = fallRigid.transform.position.y;
         fallFlag = true;
         IsFallFlag = false;
     }
@@ -33,9 +33,9 @@ public class FallManager : MonoBehaviour
     private void Update()
     {
         if(IsDown)
-        if (gameObject.transform.position.x + objSize.x + fallScopeSize > playerObj.transform.position.x)
+        if (fallRigid.transform.position.x + objSize.x + fallScopeSize > playerObj.transform.position.x)
         {
-            if (gameObject.transform.position.x - objSize.x - fallScopeSize < playerObj.transform.position.x) 
+            if (fallRigid.transform.position.x - objSize.x - fallScopeSize < playerObj.transform.position.x) 
             {
                 MoveFall();
             }
@@ -68,7 +68,7 @@ public class FallManager : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
 
         float speed = 0.001f;
-        while (gameObject.transform.position.y < fallObjectY/* - nowFallPos; i += 0.01f*/)
+        while (fallRigid.transform.position.y < fallObjectY/* - nowFallPos; i += 0.01f*/)
         {
             fallRigid.transform.position += new Vector3(0.0f, speed, 0.0f);
             yield return new WaitForSeconds(0.3f);
