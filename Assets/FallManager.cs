@@ -16,34 +16,32 @@ public class FallManager : MonoBehaviour
     bool onFloorCollider = false;
     float fallObjectY = 0.0f;
     bool fallFlag = true;
+    bool IsFallFlag = false;
     Vector2 objSize;
     private void Start()
     {
         objSize = gameObject.GetComponent<SpriteRenderer>().bounds.size;
-        // ����
-
-        // �v���C���[�^�O������
+        // プレイヤータグ
         playerObj = GameObject.FindWithTag("Player");
         fallRigid = gameObject.GetComponent<Rigidbody2D>();
         fallObjectY = gameObject.transform.position.y;
         fallFlag = true;
+        IsFallFlag = false;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (fallFlag) 
-        { 
-            if (gameObject.transform.position.x + objSize.x + fallObjectSize > playerObj.transform.position.x)
+        if(downFlag)
+        if (gameObject.transform.position.x + objSize.x + fallObjectSize > playerObj.transform.position.x)
+        {
+            if (gameObject.transform.position.x - objSize.x - fallObjectSize < playerObj.transform.position.x) 
             {
-                if (gameObject.transform.position.x - objSize.x - fallObjectSize < playerObj.transform.position.x) 
-                {
-                    fallFlag = false;
-                    fallRigid.simulated = true;
-                }
+                MoveFall();
             }
         }
 
+        if(upFlag)
         if(onFloorCollider)
         {
             StartCoroutine(MoveDown());
@@ -53,12 +51,17 @@ public class FallManager : MonoBehaviour
 
     public void MoveFall()
     {
-
+        if(fallFlag)
+        {
+            fallRigid.simulated = true;
+            IsFallFlag = true;
+            fallFlag = false;
+        }
     }
 
     public bool GetFallFlag()
     {
-        return true;
+        return IsFallFlag;
     }
     private IEnumerator MoveDown()
     {
@@ -81,6 +84,7 @@ public class FallManager : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //if (collision.gameObject.name == "Square") { 
+            IsFallFlag = false;
             fallRigid.simulated = false;
             onFloorCollider = true;
         // }
