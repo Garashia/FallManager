@@ -18,6 +18,10 @@ public class FallManager : MonoBehaviour
     bool fallFlag = true;
     bool IsFallFlag = false;
     Vector2 objSize;
+    private WaitForSeconds cachedWait0;
+    private WaitForSeconds cachedWait1;
+    private WaitForSeconds cachedWait2;
+
     private void Start()
     {
         objSize = gameObject.GetComponent<SpriteRenderer>().bounds.size;
@@ -27,6 +31,10 @@ public class FallManager : MonoBehaviour
         fallObjectY = fallRigid.transform.position.y;
         fallFlag = true;
         IsFallFlag = false;
+
+        cachedWait0 = new WaitForSeconds(0.9f);
+        cachedWait1 = new WaitForSeconds(0.3f);
+        cachedWait2 = new WaitForSeconds(0.8f);
     }
 
     // Update is called once per frame
@@ -63,19 +71,23 @@ public class FallManager : MonoBehaviour
     {
         return IsFallFlag;
     }
+
     private IEnumerator MoveDown()
     {
-        yield return new WaitForSeconds(0.9f);
+        //var cachedWait0 = new WaitForSeconds(0.9f);
+            // キャッシュしてるWaitForSecondsを使う  
+        yield return cachedWait0;
 
         float speed = 0.001f;
         while (fallRigid.transform.position.y < fallObjectY/* - nowFallPos; i += 0.01f*/)
         {
             fallRigid.transform.position += new Vector3(0.0f, speed, 0.0f);
-            yield return new WaitForSeconds(0.3f);
+            //var cachedWait1 = new WaitForSeconds(0.3f);
+            yield return cachedWait1;
             speed += 0.001f;
         }
-
-        yield return new WaitForSeconds(0.8f);
+        //var cachedWait2 = new WaitForSeconds(0.8f);
+        yield return cachedWait2;
 
         fallFlag = true;
         onFloorCollider = false;
@@ -83,9 +95,9 @@ public class FallManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (collision.gameObject.tag == "Floor")
+        //if (collision.gameObject.CompareTag("Floor"))
         //{
-            IsFallFlag = false;
+        IsFallFlag = false;
             fallRigid.simulated = false;
             onFloorCollider = true;
         //}
