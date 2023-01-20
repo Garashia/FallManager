@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FallManager : MonoBehaviour
@@ -8,11 +7,11 @@ public class FallManager : MonoBehaviour
     Rigidbody2D fallRigid;
     [SerializeField]
     [Range(0, 1)]
-    private float fallObjectSize = 0.0f;
+    private float fallScopeSize = 0.0f;
     [SerializeField]
-    private bool upFlag = true;
+    private bool IsUp = true;
     [SerializeField]
-    private bool downFlag = true;
+    private bool IsDown = true;
     bool onFloorCollider = false;
     float fallObjectY = 0.0f;
     bool fallFlag = true;
@@ -32,16 +31,16 @@ public class FallManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(downFlag)
-        if (gameObject.transform.position.x + objSize.x + fallObjectSize > playerObj.transform.position.x)
+        if(IsDown)
+        if (gameObject.transform.position.x + objSize.x + fallScopeSize > playerObj.transform.position.x)
         {
-            if (gameObject.transform.position.x - objSize.x - fallObjectSize < playerObj.transform.position.x) 
+            if (gameObject.transform.position.x - objSize.x - fallScopeSize < playerObj.transform.position.x) 
             {
                 MoveFall();
             }
         }
 
-        if(upFlag)
+        if(IsUp)
         if(onFloorCollider)
         {
             StartCoroutine(MoveDown());
@@ -83,10 +82,11 @@ public class FallManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (collision.gameObject.name == "Square") { 
+        //if (collision.gameObject.tag == "Floor")
+        //{
             IsFallFlag = false;
             fallRigid.simulated = false;
             onFloorCollider = true;
-        // }
+        //}
     }
 }
